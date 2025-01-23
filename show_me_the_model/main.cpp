@@ -1,9 +1,11 @@
 #include <iostream>
 #include <vulkan/vulkan.hpp>
 
-//import NeftyUtility;
+import neftyUtility;
 
 const std::string NAME = "Vulkan Minimal Sample";
+
+#define DEVICE_SELECTION 0
 
 int main() {
     std::cout << "Vulkan Minimal Sample Application" << std::endl << std::endl;
@@ -23,33 +25,18 @@ int main() {
     }
 
     const auto physicalDevices = instance.enumeratePhysicalDevices();
-    { /* this scope is just for printing. */
-        std::cout << "Physical Devices and some information about them" << std::endl << std::endl;
-        for (const auto& physicalDevice : physicalDevices) {
-            std::cout << physicalDevice.getProperties().deviceName << std::endl;
-            std::cout << physicalDevice.getProperties().vendorID << std::endl;
-
-            for (const auto& queueFamilyProperties: physicalDevice.getQueueFamilyProperties()) {
-                std::cout << "Number of queues " << queueFamilyProperties.queueCount << " : " ;
-                std::cout << "What queue can do ";
-
-                std::vector<std::string> queueFamilyPropertyFlagNames(1);
-                queueFamilyPropertyFlagNames.emplace_back(queueFamilyProperties.queueFlags | vk::QueueFlagBits::eGraphics ? "Graphics, " : "");
-                queueFamilyPropertyFlagNames.emplace_back(queueFamilyProperties.queueFlags | vk::QueueFlagBits::eCompute ? "Compute, " : "");
-                queueFamilyPropertyFlagNames.emplace_back(queueFamilyProperties.queueFlags | vk::QueueFlagBits::eTransfer ? "Transfer, " : "");
-                queueFamilyPropertyFlagNames.emplace_back(queueFamilyProperties.queueFlags | vk::QueueFlagBits::eSparseBinding ? "SparseBinding" : "");
-
-                for (const auto& queue_family_property_flag_name : queueFamilyPropertyFlagNames) {
-                    std::cout << queue_family_property_flag_name ;
-                }
-                std::cout << std::endl;
-            }
-        }
-    }
+    NU::PrintDeviceInfo(physicalDevices);
 
 
-    //enumerateDeviceExtensionProperties()
-    // const auto deviceExtensions = physicalDevices.front().
+    /* Now time to select queue family to use.
+     * all the queue family with TRANSFER and GRAPHICS are Okay
+     *
+     * And then when the device is created the queue will be there too
+     * */
+
+    const auto physicalDeviceQueueFamilyProperties = physicalDevices[0].getQueueFamilyProperties();
+
+
 
     instance.destroy();
     return 0;
