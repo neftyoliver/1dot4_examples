@@ -1,7 +1,6 @@
 #pragma once
-#include <iostream>
-#include <vector>
-#include <vulkan/vulkan.hpp>
+
+#include "headerCollaction.hpp"
 
 #define MAX_DEVICE_SUPPORT
 
@@ -44,6 +43,8 @@ namespace nu {
             }
         }
     }
+
+
 
     inline auto findGraphicAndTransferQueueFamilyIndex(std::vector<vk::QueueFamilyProperties> vecQueueFamilyProperties) -> uint32_t {
         const auto queueFamilyGraphicsAndTransfer = std::ranges::find_if(vecQueueFamilyProperties,
