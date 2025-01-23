@@ -14,10 +14,10 @@ int main() {
     const auto instanceCreateInfo = vk::InstanceCreateInfo({}, &appInfo);
     const auto instance = vk::createInstance(instanceCreateInfo);
 
-    NU::PRINT::PrintInstanceExtensions();
+    nu::print::PrintInstanceExtensions();
 
     const auto physicalDevices = instance.enumeratePhysicalDevices();
-    NU::PRINT::PrintDeviceInfo(physicalDevices);
+    nu::print::PrintDeviceInfo(physicalDevices);
 
 
     /* Now time to select queue family to use.
@@ -27,7 +27,7 @@ int main() {
      * */
 
     const auto physicalDeviceQueueFamilyProperties = physicalDevices[DEVICE_SELECTION].getQueueFamilyProperties();
-    const auto queueFamilyIndex = NU::findGraphicAndTransferQueueFamilyIndex(physicalDeviceQueueFamilyProperties);
+    const auto queueFamilyIndex = nu::findGraphicAndTransferQueueFamilyIndex(physicalDeviceQueueFamilyProperties);
 
     const float queuePriority = 1.0f;
 

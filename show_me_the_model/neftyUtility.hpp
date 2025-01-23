@@ -5,8 +5,8 @@
 
 #define MAX_DEVICE_SUPPORT
 
-namespace NU {
-    namespace PRINT {
+namespace nu {
+    namespace print {
         inline void PrintInstanceExtensions() {
             std::cout << "Available Instance Extensions" << std::endl;
             for ( // In this for loop you can scan and detect instance extensions are available or not.
