@@ -1,7 +1,8 @@
 #include <iostream>
+#include <vector>
 #include <vulkan/vulkan.hpp>
+#include "neftyUtility.hpp"
 
-import neftyUtility;
 
 const std::string NAME = "Vulkan Minimal Sample";
 
@@ -13,19 +14,10 @@ int main() {
     const auto instanceCreateInfo = vk::InstanceCreateInfo({}, &appInfo);
     const auto instance = vk::createInstance(instanceCreateInfo);
 
-    { /* this scope is just for printing */
-        std::cout << "Available Instance Extensions" << std::endl;
-        for ( // In this for loop you can scan and detect instance extensions are available or not.
-            const auto instanceExtensions = vk::enumerateInstanceExtensionProperties();
-            const auto& extension : instanceExtensions
-            ) {
-            std::cout << extension.extensionName << " version: " << extension.specVersion << std::endl;
-            }
-        std::cout << std::endl;
-    }
+    NU::PRINT::PrintInstanceExtensions();
 
     const auto physicalDevices = instance.enumeratePhysicalDevices();
-    NU::PrintDeviceInfo(physicalDevices);
+    NU::PRINT::PrintDeviceInfo(physicalDevices);
 
 
     /* Now time to select queue family to use.
@@ -34,8 +26,17 @@ int main() {
      * And then when the device is created the queue will be there too
      * */
 
-    const auto physicalDeviceQueueFamilyProperties = physicalDevices[0].getQueueFamilyProperties();
+    const auto physicalDeviceQueueFamilyProperties = physicalDevices[DEVICE_SELECTION].getQueueFamilyProperties();
+    const auto queueFamilyIndex = NU::findGraphicAndTransferQueueFamilyIndex(physicalDeviceQueueFamilyProperties);
 
+    const float queuePriority = 1.0f;
+
+    const auto deviceQueueCreateInfo = vk::DeviceQueueCreateInfo(
+            vk::DeviceQueueCreateFlags(), //Currently 0x00000001 is the only value can use. it's a VK_DEVICE_QUEUE_CREATE_PROTECTED_BIT
+            static_cast<uint32_t>(queueFamilyIndex),
+            1, //only one queue is all we need
+            &queuePriority
+        );
 
 
     instance.destroy();

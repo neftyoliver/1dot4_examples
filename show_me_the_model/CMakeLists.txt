@@ -10,13 +10,14 @@ set_target_properties(show_me_the_model PROPERTIES CXX_STANDARD 23)
 target_sources(show_me_the_model
         PUBLIC
         main.cpp
+        neftyUtility.hpp
 )
 
-target_sources(show_me_the_model
-        PUBLIC
-        FILE_SET cpp_modules TYPE CXX_MODULES FILES
-        neftyUtility.cppm
-)
+#target_sources(show_me_the_model
+#        PUBLIC
+#        FILE_SET cpp_modules TYPE CXX_MODULES FILES
+#        {Module name}
+#)
 
 target_include_directories(show_me_the_model PUBLIC C:/VulkanSDK/1.4.304.0/Include)
 target_include_directories(show_me_the_model PUBLIC C:/msys64/ucrt64/include)
