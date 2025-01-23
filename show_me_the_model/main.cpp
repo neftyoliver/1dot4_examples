@@ -38,6 +38,16 @@ int main() {
             &queuePriority
         );
 
+    const auto deviceCreateInfo = vk::DeviceCreateInfo(
+        vk::DeviceCreateFlags(), //Ignore this thing...
+        deviceQueueCreateInfo
+        );
+
+    const auto device = physicalDevices[DEVICE_SELECTION].createDevice(deviceCreateInfo);
+    const auto queue = device.getQueue(queueFamilyIndex, 0); //There should be a queue that can do graphics and transfer.
+
+    
+
 
     instance.destroy();
     return 0;
