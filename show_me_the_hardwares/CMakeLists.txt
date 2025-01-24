@@ -5,12 +5,9 @@ set(CMAKE_CXX_STANDARD 23)
 
 add_executable(show_me_the_hardwares
         main.cpp
-        instnceInformation.cpp
-        instnceInformation.h)
-
-set_target_properties(show_me_the_hardwares
-        PROPERTIES COMPILE_WARNING_AS_ERROR ON
 )
+
+#et_source_files_properties(show_me_the_hardwares PUBLIC -Werror)
 
 
 target_include_directories(show_me_the_hardwares PUBLIC C:/VulkanSDK/1.4.304.0/Include)

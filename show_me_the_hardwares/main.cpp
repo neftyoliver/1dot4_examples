@@ -2,22 +2,23 @@
 #include <cstdint>
 #include <cctype>
 #include <string>
+#include <algorithm>
 #include <vulkan/vulkan.hpp>
 
-#include "instnceInformation.h"
-
 auto isNumber(const std::string& str) -> bool {
-    for (const auto c : str) {
-        if (!isdigit(c)) {
-            return false;
-        }
-    }
-        return true;
+    return std::ranges::all_of(str, [&str](const char ch) { return std::isdigit(ch); });
 }
 
 int main() {
-    vk::Instance instance;
-    vk::PhysicalDevice physicalDevice;
+    std::vector<vk::LayerProperties> validInstanceLayers = vk::enumerateInstanceLayerProperties();
+    std::vector<vk::ExtensionProperties> validInstanceExtensions = vk::enumerateInstanceExtensionProperties();
+
+
+    vk::ApplicationInfo applicationInfo("", 0, "", 0);
+    vk::InstanceCreateInfo instanceCreateInfo({}, &applicationInfo);
+    vk::Instance instance = vk::createInstance(instanceCreateInfo);
+
+    const auto physicalDevices = instance.enumeratePhysicalDevices();
 
 
     std::cout << "Welcome to the Hardware program!\n\n";
@@ -48,8 +49,39 @@ int main() {
             }
 
             switch (optionSelection) {
-                case 1: {} break;
-                case 2: {} break;
+                case 1: {
+                    uint32_t dev = 0;
+                    for (auto value: physicalDevices) {
+                        std::cout << dev << ". " << value.getProperties().deviceName << " ";
+                        if (dev == deviceSelection) {
+                            std::cout << " << " << std::endl;
+                        }
+                        std::cout << std::endl;
+                        dev += 1;
+                    }
+                } break;
+                case 2: {
+                    std::cout << "Select device: ";
+                    std::string dev;
+                    std::cin >> dev;
+
+                    dev.erase(dev.begin(), std::find_if(dev.begin(), dev.end(), [](const wchar_t w) {
+                        return !std::isspace(w) || w == L'\n';
+                    }));
+
+                    if (!isNumber(dev)) {
+                        std::cout << dev << " is not a number " << std::endl;
+                        break;
+                    }
+
+                    if (const auto devIdx = static_cast<uint32_t>(std::stoi(dev)); devIdx > dev.size()) {
+                        std::cout << "No device with number " << dev << std::endl;
+                        break;
+                    }
+
+                    std::cout << deviceSelection << " is a selected device. " << std::endl;
+
+                } break;
                 case 3: {} break;
                 case 4: {} break;
                 case 5: {} break;
@@ -61,6 +93,9 @@ int main() {
             std::cout << input << " is not a number.\n";
             return 1;
         }
+
+
+        LOOP_END:
     }
 
     return 0;
