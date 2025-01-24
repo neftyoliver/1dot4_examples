@@ -8,7 +8,10 @@ add_executable(show_me_the_hardwares
         instnceInformation.cpp
         instnceInformation.h)
 
-target_compile_options(show_me_the_hardwares PUBLIC -warnings-as-errors)
+set_target_properties(show_me_the_hardwares
+        PROPERTIES COMPILE_WARNING_AS_ERROR ON
+)
+
 
 target_include_directories(show_me_the_hardwares PUBLIC C:/VulkanSDK/1.4.304.0/Include)
 target_include_directories(show_me_the_hardwares PUBLIC C:/msys64/ucrt64/include)

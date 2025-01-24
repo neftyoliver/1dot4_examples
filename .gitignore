@@ -14,3 +14,4 @@ show_me_the_model/.idea/
 show_me_the_model/cmake-build-debug/build.ninja
 show_me_the_model/cmake-build-debug/
 show_me_the_hardwares/cmake-build-debug/
+show_me_the_hardwares/cmake-build-cmakellvm/
