@@ -6,7 +6,8 @@ set(CMAKE_CXX_STANDARD 23)
 add_executable(show_me_the_model
         render.cpp
         windowing.cpp
-        headerCollaction.hpp)
+        headerCollaction.hpp
+        windowing.h)
 
 set_target_properties(show_me_the_model PROPERTIES CXX_STANDARD 23)
 
