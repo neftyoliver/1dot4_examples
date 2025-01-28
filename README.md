@@ -1,4 +1,4 @@
-# 1dot4_examples
+# example for caustics
 
 The vulkan example using sdl2 to select, render, look around the model.
 it only supports obj file and textures going to supported soon.
